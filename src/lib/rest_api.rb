@@ -10,12 +10,15 @@ require_relative File.expand_path('../conf', __dir__)
 # Api class
 class RestApi < Sinatra::Base
   helpers Sinatra::Streaming
+  set :views, 'views'
 
-  BASE_URL           = TestAppConf::DEFAULTS[:api_url_base_v1]
   VALID_HTTP_METHODS = TestAppConf::DEFAULTS[:valid_http_methods]
   VERSION            = TestAppConf::DEFAULTS[:version].call
 
   def self.create_rest_api
+    default_redirect
+    seasons_form
+    seasons
     version
 
     create_default_route_methods(VALID_HTTP_METHODS).each do |http_method|
@@ -23,8 +26,28 @@ class RestApi < Sinatra::Base
     end
   end
 
+  def self.default_redirect
+    get '/' do
+      redirect '/seasons_form'
+    end
+  end
+
+  def self.seasons_form
+    get "#{BASE_URL}/seasons_form" do
+      erb :seasons_form
+    end
+  end
+
+  def self.seasons
+    post '/seasons' do
+      "My name is #{params[:name]}, and I love #{params[:favorite_season]}"
+    end
+  end
+
+  def self.answers; end
+
   def self.version
-    get "#{BASE_URL}/version" do
+    get '/version' do
       stream do |out|
         content_type :json
         out.puts(File.read(VERSION).chomp.to_json)
