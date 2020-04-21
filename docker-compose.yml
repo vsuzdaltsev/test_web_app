@@ -1,0 +1,23 @@
+version: "2"
+services:
+  test-app:
+    environment:
+      APP_DIR: ${APP_DIR}
+      UNICORN_PORT: ${UNICORN_PORT}
+      UNICORN_HOST: ${UNICORN_HOST}
+      UNICORN_TIMEOUT: ${UNICORN_TIMEOUT}
+      UNICORN_WORKERS: ${UNICORN_WORKERS}
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        RUBY_VER: ${RUBY_VER}
+        APP_DIR: ${APP_DIR}
+    command: unicorn -c ${APP_DIR}/unicorn.conf
+    ports:
+      - ${UNICORN_PORT}:${UNICORN_PORT}
+    container_name: ${UNICORN_CONTAINER}
+    image: ${UNICORN_CONTAINER}
