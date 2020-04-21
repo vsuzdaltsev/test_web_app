@@ -19,6 +19,7 @@ class RestApi < Sinatra::Base
     default_redirect
     seasons_form
     seasons
+    answers
     version
 
     create_default_route_methods(VALID_HTTP_METHODS).each do |http_method|
@@ -33,18 +34,23 @@ class RestApi < Sinatra::Base
   end
 
   def self.seasons_form
-    get "#{BASE_URL}/seasons_form" do
+    get '/seasons_form' do
       erb :seasons_form
     end
   end
 
   def self.seasons
     post '/seasons' do
-      "My name is #{params[:name]}, and I love #{params[:favorite_season]}"
+      puts "My name is #{params[:name]}, and I love #{params[:favorite_season]}"
+      redirect '/answers'
     end
   end
 
-  def self.answers; end
+  def self.answers
+    get '/answers' do
+      'Saved answers'
+    end
+  end
 
   def self.version
     get '/version' do
