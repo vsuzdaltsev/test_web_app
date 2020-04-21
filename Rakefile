@@ -64,7 +64,6 @@ namespace :docker_compose do
     system('docker-compose up -d')
   end
 
-
   desc 'stop service'
   task :stop do |task|
     Rake::Task["#{task.scope.path}:create_env"].execute
