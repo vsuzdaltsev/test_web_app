@@ -6,8 +6,7 @@ services:
 
 before_install:
   - rake docker_compose:build
-#  - docker tag test-app:latest vsuzdaltsev/test-app:latest
-  - docker build -t vsuzdaltsev/test-app -f ./Dockerfile .
+  - docker tag test-app vsuzdaltsev/test-app:latest
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
