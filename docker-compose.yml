@@ -21,3 +21,8 @@ services:
       - ${UNICORN_PORT}:${UNICORN_PORT}
     container_name: ${UNICORN_CONTAINER}
     image: ${UNICORN_CONTAINER}
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: yaa

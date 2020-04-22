@@ -1,0 +1,69 @@
+Metrics/MethodLength:
+  Enabled: true
+  Max: 10
+
+# According to team decision
+Style/PercentLiteralDelimiters:
+  # Specify the default preferred delimiter for all types with the 'default' key
+  # Override individual delimiters (even with default specified) by specifying
+  # an individual key
+  PreferredDelimiters:
+    default: []
+    '%i': '[]'
+    '%I': '[]'
+    '%r': '{}'
+    '%w': '[]'
+    '%W': '[]'
+
+Style/TrailingCommaInHashLiteral:
+  # If `comma`, the cop requires a comma after the last item in a hash,
+  # but only when each item is on its own line.
+  # If `consistent_comma`, the cop requires a comma after the last item of all
+  # non-empty hash literals.
+  EnforcedStyleForMultiline: no_comma
+
+
+Style/TrailingCommaInArrayLiteral:
+  # If `comma`, the cop requires a comma after the last item in an array,
+  # but only when each item is on its own line.
+  # If `consistent_comma`, the cop requires a comma after the last item of all
+  # non-empty array literals.
+  EnforcedStyleForMultiline: no_comma
+
+Style/SpecialGlobalVars:
+  # This cop looks for uses of Perl-style global variables.
+  EnforcedStyle: use_perl_names
+
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+
+Layout/HashAlignment:
+  Enabled: true
+  EnforcedColonStyle: table
+
+Layout/LineLength:
+    Max: 120
+
+Layout/ExtraSpacing:
+  Description: 'Do not use unnecessary spacing.'
+  Enabled: true
+  VersionAdded: '0.49'
+  # When true, allows most uses of extra spacing if the intent is to align
+  # things with the previous or next line, not counting empty lines or comment
+  # lines.
+  AllowForAlignment: true
+  # When true, allows things like 'obj.meth(arg)  # comment',
+  # rather than insisting on 'obj.meth(arg) # comment'.
+  # If done for alignment, either this OR AllowForAlignment will allow it.
+  AllowBeforeTrailingComments: false
+  # When true, forces the alignment of `=` in assignments on consecutive lines.
+  ForceEqualSignAlignment: true
+
+AllCops:
+  Exclude:
+    - 'spec/stub.rb'
+    - 'spec/*_spec.rb'

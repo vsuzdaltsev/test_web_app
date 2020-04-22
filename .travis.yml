@@ -1,0 +1,13 @@
+language: minimal
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  - rake docker_compose:build
+  - docker tag test-app vsuzdaltsev/test-app:latest
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push vsuzdaltsev/test-app:latest

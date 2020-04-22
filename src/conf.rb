@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class TestAppConf
-  DEFAULTS = {
+  DEFAULTS  = {
     valid_http_methods: %w[
       delete
       get
@@ -10,16 +10,13 @@ class TestAppConf
       post
       put
     ],
-    api_url_base_v1:    '/api/v1',
-    reporter_ecr_repo:   'reporter',
-    keep_images:        2,
     version:            -> { File.expand_path('./version.txt', __dir__) }
   }.freeze
   LOG_LEVEL = -> { Logger::DEBUG }.freeze
-  DOCKER   = {
+  DOCKER    = {
     env_file: '.env'
   }.freeze
-  UNICORN  = lambda do
+  UNICORN   = lambda do
     {
       working_dir:    '/opt/app',
       ruby_ver:       File.readlines('./Gemfile').grep(/ruby /).join.split[1].delete('\''),

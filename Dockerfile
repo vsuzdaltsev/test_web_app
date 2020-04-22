@@ -9,7 +9,7 @@ WORKDIR $APP_DIR
 COPY Gemfile      ./
 COPY Gemfile.lock ./
 
-RUN apk add --update --no-cache build-base &&\
+RUN apk add --update --no-cache build-base libpq postgresql-dev &&\
   gem install bundler &&\
   bundle config set without 'build' &&\
   bundle install &&\
