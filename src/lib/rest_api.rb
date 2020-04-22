@@ -52,9 +52,7 @@ class RestApi < Sinatra::Base
       con = PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD)
       con.exec("CREATE TABLE if not exists #{TABLE} (name VARCHAR(100) NOT NULL, season VARCHAR(100) NULL);")
       con.exec("INSERT INTO seasons(name, season) VALUES(\'#{params[:name]}\', \'#{params[:favorite_season]}\');")
-      con.close if con
-
-      # INSERT INTO fruits(id,name) VALUES(DEFAULT,'Apple');
+      con&.close
 
       redirect '/answers'
     end
@@ -62,10 +60,10 @@ class RestApi < Sinatra::Base
 
   def self.answers
     get '/answers' do
-      con = PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD)
-      res = con.exec("SELECT * FROM #{TABLE}").map { |e| e }
-
-      puts res.to_json
+      con      = PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD)
+      @answers = con.exec("SELECT * FROM #{TABLE}").map { |e| e }
+      con.close
+      erb :answers
     end
   end
 
