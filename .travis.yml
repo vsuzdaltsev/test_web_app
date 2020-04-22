@@ -9,7 +9,7 @@ services:
 #  - master
 
 before_install:
-  - rake docker_compose::build
+  - rake docker_compose:build
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
