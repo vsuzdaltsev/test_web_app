@@ -4,9 +4,9 @@ sudo: required
 services:
   - docker
 
-branches:
-  only:
-  - master
+#branches:
+#  only:
+#  - master
 
 before_install:
   - rake docker_compose:build
