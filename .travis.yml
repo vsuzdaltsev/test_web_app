@@ -9,8 +9,8 @@ services:
 #  - master
 
 before_install:
-  - docker build -t vsuzdaltsev/test_web_app -f ./Dockerfile .
+  - rake docker_compose::build
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push vsuzdaltsev/test_web_app:latest
+  - docker push vsuzdaltsev/test-app:latest
