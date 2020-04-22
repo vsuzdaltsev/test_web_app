@@ -15,7 +15,7 @@ class RestApi < Sinatra::Base
 
   VALID_HTTP_METHODS = TestAppConf::DEFAULTS[:valid_http_methods]
   VERSION            = TestAppConf::DEFAULTS[:version].call
-  POSTGRES_HOST      = 'postgres-postgresql.default.svc.cluster.local'
+  POSTGRES_HOST      = 'postgres' #-postgresql.default.svc.cluster.local'
   POSTGRES_DB        = 'yaa'
   POSTGRES_PASSWORD  = 'yaa'
   POSTGRES_USER      = 'postgres'
@@ -39,6 +39,9 @@ class RestApi < Sinatra::Base
     end
   end
 
+
+
+
   def self.seasons_form
     get '/seasons_form' do
       erb :seasons_form
@@ -50,8 +53,8 @@ class RestApi < Sinatra::Base
       puts "My name is #{params[:name]}, and I love #{params[:favorite_season]}"
 
       con = PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD)
-      con.exec("CREATE TABLE if not exists #{TABLE} (name VARCHAR(100) NOT NULL, season VARCHAR(100) NULL);")
-      con.exec("INSERT INTO seasons(name, season) VALUES (#{params[:name]}, #{params[:favorite_season]});")
+          con.exec("CREATE TABLE if not exists #{TABLE} (name VARCHAR(100) NOT NULL, season VARCHAR(100) NULL);")
+      con.exec("INSERT INTO seasons(name, season) VALUES(\'#{params[:name]}\', \'#{params[:favorite_season]}\');")
       # con.close if con
 
       # INSERT INTO fruits(id,name) VALUES(DEFAULT,'Apple');
@@ -62,8 +65,8 @@ class RestApi < Sinatra::Base
 
   def self.answers
     get '/answers' do
-      con = PG.connect dbname: 'yaa', user: 'postgres', host: 'postgres', password: 'yaa'
-      res = con.exec('select * from seasons').map { |e| e }
+      con = PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD)
+      res = con.exec("SELECT * FROM #{TABLE}").map { |e| e }
 
       puts res.to_json
     end
