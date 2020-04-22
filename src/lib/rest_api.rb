@@ -49,11 +49,12 @@ class RestApi < Sinatra::Base
     post '/seasons' do
       puts "My name is #{params[:name]}, and I love #{params[:favorite_season]}"
 
-      PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD).tap do |con|
-        con.exec("CREATE TABLE if not exists #{TABLE} (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, season VARCHAR(100) NULL);")
-        con.exec('CREATE SEQUENCE if not exists users_sequence start 1 increment 1;')
-        con.exec("INSERT INTO seasons (id, name, season) VALUES (nextval('users_sequence'), #{params[:name]}, #{params[:favourite_season]});")
-      end.close
+      con = PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD)
+      con.exec("CREATE TABLE if not exists #{TABLE} (name VARCHAR(100) NOT NULL, season VARCHAR(100) NULL);")
+      con.exec("INSERT INTO seasons(name, season) VALUES (#{params[:name]}, #{params[:favorite_season]});")
+      # con.close if con
+
+      # INSERT INTO fruits(id,name) VALUES(DEFAULT,'Apple');
 
       redirect '/answers'
     end
