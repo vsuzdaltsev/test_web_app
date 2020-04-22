@@ -51,7 +51,7 @@ class RestApi < Sinatra::Base
 
       PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD).tap do |con|
         con.exec("CREATE TABLE if not exists #{TABLE} (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, season VARCHAR(100) NULL);")
-        con.exec('CREATE SEQUENCE if not exists users_sequence start 1 increment 1')
+        con.exec('CREATE SEQUENCE if not exists users_sequence start 1 increment 1;')
         con.exec("INSERT INTO seasons (id, name, season) VALUES (nextval('users_sequence'), #{params[:name]}, #{params[:favourite_season]});")
       end.close
 
