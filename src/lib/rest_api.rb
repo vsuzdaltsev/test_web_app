@@ -4,6 +4,7 @@
 require 'json'
 require 'sinatra/base'
 require 'sinatra/streaming'
+require 'pg'
 
 require_relative File.expand_path('../conf', __dir__)
 
@@ -14,6 +15,11 @@ class RestApi < Sinatra::Base
 
   VALID_HTTP_METHODS = TestAppConf::DEFAULTS[:valid_http_methods]
   VERSION            = TestAppConf::DEFAULTS[:version].call
+  POSTGRES_HOST      = 'postgres'
+  POSTGRES_DB        = 'yaa'
+  POSTGRES_PASSWORD  = 'yaa'
+  POSTGRES_USER      = 'postgres'
+  TABLE              = 'seasons'
 
   def self.create_rest_api
     default_redirect
@@ -42,13 +48,23 @@ class RestApi < Sinatra::Base
   def self.seasons
     post '/seasons' do
       puts "My name is #{params[:name]}, and I love #{params[:favorite_season]}"
+
+      PG.connect(dbname: POSTGRES_DB, user: POSTGRES_USER, host: POSTGRES_HOST, password: POSTGRES_PASSWORD).tap do |con|
+        con.exec("CREATE TABLE if not exists #{TABLE} (id SERIAL PRIMARY KEY, title VARCHAR(100) NOT NULL, primary_author VARCHAR(100) NULL);")
+        con.exec('CREATE SEQUENCE if not exists users_sequence start 1 increment 1')
+        con.exec("INSERT INTO seasons (id, title, primary_author) VALUES (nextval('users_sequence'), #{params[:name]}, #{params[:favourite_season]});")
+      end.close
+
       redirect '/answers'
     end
   end
 
   def self.answers
     get '/answers' do
-      'Saved answers'
+      con = PG.connect dbname: 'yaa', user: 'postgres', host: 'postgres', password: 'yaa'
+      res = con.exec('select * from seasons').map { |e| e }
+
+      puts res.to_json
     end
   end
 
