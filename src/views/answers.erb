@@ -1,0 +1,14 @@
+<!DOCTYPE html5>
+<head><title>Answers</title></head>
+<body>
+  <h4>Favourite seasons:</h4>
+    <p>
+      <ul>
+        <% @answers.each do |answer| %>
+             <%= "<li>#{answer['name']}: #{answer['season']}</li>" %>
+           <% end %>
+      </ul>
+    </p>
+</body>
+
+
