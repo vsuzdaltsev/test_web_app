@@ -15,7 +15,7 @@ class RestApi < Sinatra::Base
 
   VALID_HTTP_METHODS = TestAppConf::DEFAULTS[:valid_http_methods]
   VERSION            = TestAppConf::DEFAULTS[:version].call
-  POSTGRES_HOST      = 'postgres'
+  POSTGRES_HOST      = 'postgres-postgresql.default.svc.cluster.local'
   POSTGRES_DB        = 'yaa'
   POSTGRES_PASSWORD  = 'yaa'
   POSTGRES_USER      = 'postgres'
