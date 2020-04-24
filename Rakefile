@@ -2,6 +2,7 @@
 
 # frozen_string_literal: true
 
+require 'json'
 require 'mkmf'
 
 require_relative File.expand_path('./src/conf', __dir__)
