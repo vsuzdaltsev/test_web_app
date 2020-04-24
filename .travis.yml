@@ -5,6 +5,7 @@ services:
   - docker
 
 before_install:
+  - rake version:generate
   - rake docker_compose:build
   - docker tag test-app vsuzdaltsev/test-app:latest
 
