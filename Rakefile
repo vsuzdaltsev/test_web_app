@@ -29,7 +29,7 @@ namespace :version do
       {
         project:    'git@github.com:vsuzdaltsev/test_web_app.git',
         built_at:   Time.now.utc,
-        commit_sha: `git rev-parse HEAD`
+        commit_sha: `git rev-parse HEAD`.chomp
       }.to_json
     )
   end
