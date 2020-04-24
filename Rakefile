@@ -21,6 +21,19 @@ task :default do
   puts ">> Type 'rake --tasks' to list existent tasks"
 end
 
+namespace :version do
+  task :generate do
+    File.write(
+      'version.txt',
+      {
+        project:    'git@github.com:vsuzdaltsev/test_web_app.git',
+        built_at:   Time.now.utc,
+        commit_sha: `git rev-parse HEAD`
+      }.to_json
+    )
+  end
+end
+
 namespace :docker_compose do
   task :create_env_file do
     puts ">> Create env file #{DOCKER_ENV_FILE}"
