@@ -71,7 +71,7 @@ class RestApi < Sinatra::Base
     get '/version' do
       stream do |out|
         content_type :json
-        out.puts(File.read(VERSION).chomp.to_json)
+        out.puts(File.read(VERSION).chomp)
       end
     end
   end
