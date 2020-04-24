@@ -1,1 +1,1 @@
-{"project":"git@github.com:vsuzdaltsev/test_web_app.git","built_at":"2020-04-24 08:22:19 UTC","commit_sha":"830f401781fd2a9699d9f6217f7373de744e2cc8\n"}
+default
